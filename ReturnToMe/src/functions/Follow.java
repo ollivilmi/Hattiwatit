@@ -1,13 +1,13 @@
 package functions;
 import lejos.utility.Delay;
-import values.IR;
+import values.IRSeeker;
 
 public class Follow extends Thread {
-	private IR sensor;
+	private IRSeeker sensor;
 	private Movement motor;
 	private boolean stop = false;
 	private int distance, bearing;
-	public Follow (IR sensor, Movement motor) {
+	public Follow (IRSeeker sensor, Movement motor) {
 		this.sensor = sensor;
 		this.motor = motor;
 	}
