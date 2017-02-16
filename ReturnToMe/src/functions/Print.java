@@ -1,13 +1,13 @@
 package functions;
 import lejos.hardware.lcd.LCD;
 import lejos.utility.Delay;
-import values.IR;
+import values.IRSeeker;
 
 public class Print extends Thread {
-	private IR sensor;
+	private IRSeeker sensor;
 	private boolean stop = false;
 	
-	public Print(IR sensor) {
+	public Print(IRSeeker sensor) {
 		this.sensor = sensor;
 	}
 	public void run() {

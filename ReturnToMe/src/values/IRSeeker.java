@@ -4,14 +4,14 @@ import lejos.hardware.sensor.SensorMode;
 import lejos.utility.Delay;
 import lejos.hardware.port.Port;
 
-public class IR extends Thread {
+public class IRSeeker extends Thread {
 	private EV3IRSensor sensor;
 	private SensorMode seeker;
 	private float[] samples;
 	private float bearing, distance;
 	private boolean stop = false;
 	
-	public IR(Port port) {
+	public IRSeeker(Port port) {
 		this.sensor = new EV3IRSensor(port);
 		this.seeker = this.sensor.getSeekMode();
 		this.samples = new float[seeker.sampleSize()];

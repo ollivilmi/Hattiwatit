@@ -1,5 +1,5 @@
 package main;
-import values.IR;
+import values.IRSeeker;
 import functions.Print;
 import lejos.hardware.Button;
 import lejos.hardware.port.SensorPort;
@@ -10,7 +10,7 @@ import functions.Follow;
 
 public class Main {
 	public static void main(String[] args) {
-		IR sensori = new IR(SensorPort.S1);
+		IRSeeker sensori = new IRSeeker(SensorPort.S1);
 		Print printer = new Print(sensori);	
 		Movement liike = new Movement(MotorPort.A, MotorPort.D, 360);
 		Follow follower = new Follow(sensori, liike);
