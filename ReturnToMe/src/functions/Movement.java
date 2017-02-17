@@ -13,16 +13,24 @@ public class Movement {
 		this.left.setSpeed(speed);
 	}
 	public void forward() {
-		this.right.forward();
-		this.left.forward();
+		this.right.backward();
+		this.left.backward();
+		//Delay.msDelay(delay);
 	}
 	public void left() {
-		this.right.forward();
-		this.left.backward();
-	}
-	public void right() {
 		this.right.backward();
 		this.left.forward();
+		//Delay.msDelay(delay);
+	}
+	public void right() {
+		this.right.forward();
+		this.left.backward();
+		//Delay.msDelay(delay);
+	}
+	public void backward() {
+		this.right.forward();
+		this.left.forward();
+		//Delay.msDelay(delay);
 	}
 	public void stop() {
 		this.right.stop(true);
