@@ -2,7 +2,6 @@ package controllers.devices;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
-import lejos.utility.Delay;
 
 public class MotorController extends DeviceController {
 	private enum Direction {
@@ -15,8 +14,7 @@ public class MotorController extends DeviceController {
 								   motorL;
 	private int speedR,
 				speedL,
-				defaultSpeed,
-				interval = 10;
+				defaultSpeed;
 
 	public MotorController(Port right, Port left, int defaultSpeed) {
 		motorR = new EV3LargeRegulatedMotor(right);
@@ -47,8 +45,6 @@ public class MotorController extends DeviceController {
 			motorL.backward();
 			break;
 		}
-
-		Delay.msDelay(interval);
 	}
 
 	public void backward() {

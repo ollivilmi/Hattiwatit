@@ -3,7 +3,6 @@ package controllers.modes;
 import controllers.devices.IRController;
 import controllers.devices.MotorController;
 import lejos.hardware.lcd.LCD;
-import lejos.utility.Delay;
 
 public class FollowController extends ModeController {
 	private MotorController motor;
@@ -11,8 +10,7 @@ public class FollowController extends ModeController {
 	private float distance, bearing;
 	private int distanceMin = 5,
 				distanceMax = 99,
-				forwardThreshold = 4,
-				interval = 10;
+				forwardThreshold = 4;
 
 	/**
 	 * 
@@ -33,7 +31,7 @@ public class FollowController extends ModeController {
 		distance = ir.getSeekDistance();
 		bearing = ir.getSeekBearing();
 		String msg = "";
-		
+
 		if (distance <= distanceMin || (distance >= distanceMax && bearing == 0)) {
 			msg = "halt";
 			motor.halt();
@@ -47,11 +45,9 @@ public class FollowController extends ModeController {
 			msg = "right";
 			motor.right();
 		}
-		
+
 		LCD.clear(4);
 		LCD.drawString(msg, 0, 4);
-		
-		Delay.msDelay(interval);
 	}
 
 	@Override

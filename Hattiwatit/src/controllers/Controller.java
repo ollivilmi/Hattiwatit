@@ -1,9 +1,12 @@
 package controllers;
 
+import lejos.utility.Delay;
+
 // TODO: implements Runnable
 public abstract class Controller extends Thread {
 	protected boolean alive = true;
 	protected boolean enabled = false;
+	protected int interval = 10;
 
 	protected abstract void action();
 
@@ -24,6 +27,7 @@ public abstract class Controller extends Thread {
 		while (alive) {
 			if (enabled) {
 				action();
+				Delay.msDelay(interval);
 			}
 		}
 	}

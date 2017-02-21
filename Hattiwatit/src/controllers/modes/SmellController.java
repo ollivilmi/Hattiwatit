@@ -4,12 +4,10 @@ import controllers.devices.ColorController;
 import controllers.devices.MotorController;
 import lejos.hardware.lcd.LCD;
 import lejos.robotics.Color;
-import lejos.utility.Delay;
 
 public class SmellController extends ModeController {
 	private MotorController motor;
 	private ColorController color;
-	private int interval = 10;
 
 	public SmellController(ColorController color, MotorController motor) {
 		super("Smell");
@@ -21,6 +19,8 @@ public class SmellController extends ModeController {
 
 	@Override
 	protected void action() {
+		LCD.clear(5);
+
 		switch (color.getColorID()) {
 		case Color.YELLOW:
 			LCD.drawString("Pee", 0, 5);
@@ -32,12 +32,8 @@ public class SmellController extends ModeController {
 			LCD.drawString("Seeking", 0, 5);
 			break;
 		}
-
-		Delay.msDelay(interval);
-		
-		LCD.clear(5);
 	}
-	
+
 	@Override
 	public void enable() {
 		color.setMode("ColorID");

@@ -3,13 +3,11 @@ package controllers.modes;
 import controllers.devices.IRController;
 import controllers.devices.MotorController;
 import lejos.hardware.lcd.LCD;
-import lejos.utility.Delay;
 
 public class PatrolController extends ModeController {
 	private MotorController motor;
 	private IRController ir;
 	private float distance;
-	private int interval = 10;
 
 	/**
 	 * 
@@ -41,11 +39,8 @@ public class PatrolController extends ModeController {
 			msg = "forward";
 		}
 		
-		LCD.drawString(msg, 0, 4);
-		
-		Delay.msDelay(interval);
-		
 		LCD.clear(4);
+		LCD.drawString(msg, 0, 4);
 	}
 
 	@Override
