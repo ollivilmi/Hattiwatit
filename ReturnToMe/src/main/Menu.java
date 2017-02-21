@@ -14,6 +14,8 @@ public class Menu {
 		this.menu = new TextMenu(this.menuItems);
 		
 	}
+
+	// TODO: starting position as parameter 
 	public int showMenu() {
 		int selection;
 		

@@ -1,99 +1,117 @@
 package main;
+
+import java.util.ArrayList;
+
+import controllers.devices.ColorController;
+import controllers.devices.IRController;
+import controllers.devices.MotorController;
+import controllers.modes.FollowController;
+import controllers.modes.ModeController;
+import controllers.modes.PatrolController;
+import controllers.modes.SmellController;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.port.Port;
-import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.utility.Delay;
-import controllers.FollowController;
-import controllers.IRController;
-import controllers.PatrolController;
-import controllers.SmellController;
-import functions.Movement;
-
 
 public class Doge {
-	private Menu menu;
-	private FollowController follower;
-	private int selected;
-	private SmellController smell;
-	private PatrolController patrol;
+	private MotorController motor;
 	private IRController ir;
-	private Movement motor;
-	private EV3ColorSensor color;
-	private String[] menuItems = {
-			"Euthanize",
-			"Follow",
-			"Patrol",
-			"Seek smells"
-	};
+	private ColorController color;
 
-	
-	public Doge (Port irport, Port colorport, Port motorR, Port motorL) {
-		this.motor = new Movement(motorR, motorL, 360);
-		this.ir = new IRController(irport);
-		this.color = new EV3ColorSensor(colorport);
-		this.menu = new Menu(menuItems);
+	private FollowController follower;
+	private PatrolController patrol;
+	private SmellController smell;
+
+	private Menu menu;
+	private ArrayList<ModeController> modeList;
+	private ArrayList<String> modeNames;
+	private String[] menuItems;
+	private int selected,
+				quit;
+
+	private ModeController currentMode;
+
+	public Doge(Port irPort, Port colorPort, Port motorR, Port motorL) {
+		this.message(0, "Starting");
+		this.message(1, "motors...");
+		this.motor = new MotorController(motorR, motorL, 360);
+		this.message(1, "IR...");
+		this.ir = new IRController(irPort);
+		this.message(1, "colors...");
+		this.color = new ColorController(colorPort);
+
+		this.motor.start();
 		this.ir.start();
+		this.color.start();
+
+		this.message(1, "modes...");
 		this.follower = new FollowController(this.ir, this.motor);
 		this.patrol = new PatrolController(this.ir, this.motor);
 		this.smell = new SmellController(this.color, this.motor);
+
 		this.follower.start();
 		this.patrol.start();
 		this.smell.start();
+
+		LCD.clear(1);
+		this.message(0, "Creating menu...");
+		this.modeList = new ArrayList<ModeController>();
+		this.modeList.add(this.follower);
+		this.modeList.add(this.patrol);
+		this.modeList.add(this.smell);
+
+		this.modeNames = new ArrayList<String>();
+		for (ModeController mc : modeList) {
+			this.modeNames.add(mc.getModeName());
 		}
-	
+		this.quit = this.modeList.size();
+
+		this.menuItems = modeNames.toArray(new String[this.modeList.size() + 1]);
+		this.menuItems[this.quit] = "Quit";
+
+		this.menu = new Menu(this.menuItems);
+
+		LCD.clear(0);
+	}
+
 	public void loopMenu() {
 		do {
-			selected = this.menu.showMenu();
-			
-			
-			switch (selected) {
-			case 0:
+			this.selected = this.menu.showMenu();
+			this.selected = (this.selected == -1) ? this.quit : this.selected;
+
+			if (this.selected == this.quit) {
 				// Euthanize
 				this.follower.terminate();
 				this.patrol.terminate();
 				this.smell.terminate();
+
+				this.motor.terminate();
 				this.ir.terminate();
-				break;
-				
-			case 1:
-				// Follow
-				this.ir.enable();
-				this.ir.setMode(1);
-				this.follower.enable();
+				this.color.terminate();
+			} else {
+				this.currentMode = this.modeList.get(selected);
+				this.currentMode.enable();
+
+				// TODO: tell the user how to quit
+				LCD.drawString("Running " + this.currentMode.getModeName(), 0, 0);
+
 				while (Button.ESCAPE.isUp()) {
 					Delay.msDelay(50);
-					LCD.drawString("Running", 0, 0);
 				}
 				LCD.clear(0);
-				this.follower.disable();
-				this.ir.disable();
-				break;
-				
-			case 2:
-				// Patrol
-				this.ir.enable();
-				this.ir.setMode(0);
-				this.patrol.enable();
-				while (Button.ESCAPE.isUp()) {
+
+				this.currentMode.disable();
+
+				while (Button.ESCAPE.isDown()) {
 					Delay.msDelay(50);
-					LCD.drawString("Running", 0, 0);
 				}
-				LCD.clear(0);
-				this.patrol.disable();
-				this.ir.disable();
-				break;
-				
-			case 3:
-				// Seek smells
-				this.smell.enable();
-				while (Button.ESCAPE.isUp()) {
-					Delay.msDelay(50);
-					LCD.drawString("Running", 0, 0);
-				}
-				LCD.clear(0);
-				this.smell.disable();
 			}
-		} while (selected != 0);
+		} while (this.selected != this.quit);
+	}
+
+	private void message(int row, String text) {
+		LCD.clear(row);
+		LCD.drawString(text, 0, row);
 	}
 }
