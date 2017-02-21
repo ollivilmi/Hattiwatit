@@ -16,7 +16,7 @@ public abstract class ModeController extends Controller {
 	@Override
 	public void disable() {
 		super.disable();
-		for (Controller dc : this.devices) {
+		for (Controller dc : devices) {
 			dc.disable();
 		}
 	}
@@ -24,7 +24,7 @@ public abstract class ModeController extends Controller {
 	@Override
 	public void enable() {
 		super.enable();
-		for (Controller dc : this.devices) {
+		for (Controller dc : devices) {
 			dc.enable();
 		}
 	}

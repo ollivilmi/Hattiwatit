@@ -8,6 +8,6 @@ public abstract class DeviceController extends Controller {
 	@Override
 	public void run() {
 		super.run();
-		this.cleanUp();
+		cleanUp();
 	}
 }

@@ -33,81 +33,81 @@ public class Doge {
 	private ModeController currentMode;
 
 	public Doge(Port irPort, Port colorPort, Port motorR, Port motorL) {
-		this.message(0, "Starting");
-		this.message(1, "motors...");
-		this.motor = new MotorController(motorR, motorL, 360);
-		this.message(1, "IR...");
-		this.ir = new IRController(irPort);
-		this.message(1, "colors...");
-		this.color = new ColorController(colorPort);
+		message(0, "Starting");
+		message(1, "motors...");
+		motor = new MotorController(motorR, motorL, 360);
+		message(1, "IR...");
+		ir = new IRController(irPort);
+		message(1, "colors...");
+		color = new ColorController(colorPort);
 
-		this.motor.start();
-		this.ir.start();
-		this.color.start();
+		motor.start();
+		ir.start();
+		color.start();
 
-		this.message(1, "modes...");
-		this.follower = new FollowController(this.ir, this.motor);
-		this.patrol = new PatrolController(this.ir, this.motor);
-		this.smell = new SmellController(this.color, this.motor);
+		message(1, "modes...");
+		follower = new FollowController(ir, motor);
+		patrol = new PatrolController(ir, motor);
+		smell = new SmellController(color, motor);
 
-		this.follower.start();
-		this.patrol.start();
-		this.smell.start();
+		follower.start();
+		patrol.start();
+		smell.start();
 
 		LCD.clear(1);
-		this.message(0, "Creating menu...");
-		this.modeList = new ArrayList<ModeController>();
-		this.modeList.add(this.follower);
-		this.modeList.add(this.patrol);
-		this.modeList.add(this.smell);
+		message(0, "Creating menu...");
+		modeList = new ArrayList<ModeController>();
+		modeList.add(follower);
+		modeList.add(patrol);
+		modeList.add(smell);
 
-		this.modeNames = new ArrayList<String>();
+		modeNames = new ArrayList<String>();
 		for (ModeController mc : modeList) {
-			this.modeNames.add(mc.getModeName());
+			modeNames.add(mc.getModeName());
 		}
-		this.quit = this.modeList.size();
+		quit = modeList.size();
 
-		this.menuItems = modeNames.toArray(new String[this.modeList.size() + 1]);
-		this.menuItems[this.quit] = "Quit";
+		menuItems = modeNames.toArray(new String[modeList.size() + 1]);
+		menuItems[quit] = "Quit";
 
-		this.menu = new Menu(this.menuItems);
+		menu = new Menu(menuItems);
 
 		LCD.clear(0);
 	}
 
 	public void loopMenu() {
 		do {
-			this.selected = this.menu.showMenu();
-			this.selected = (this.selected == -1) ? this.quit : this.selected;
+			selected = menu.showMenu();
+			selected = (selected == -1) ? quit : selected;
 
-			if (this.selected == this.quit) {
+			if (selected == quit) {
 				// Euthanize
-				this.follower.terminate();
-				this.patrol.terminate();
-				this.smell.terminate();
+				follower.terminate();
+				patrol.terminate();
+				smell.terminate();
 
-				this.motor.terminate();
-				this.ir.terminate();
-				this.color.terminate();
+				motor.terminate();
+				ir.terminate();
+				color.terminate();
 			} else {
-				this.currentMode = this.modeList.get(selected);
-				this.currentMode.enable();
+				currentMode = modeList.get(selected);
+				currentMode.enable();
 
 				// TODO: tell the user how to quit
-				LCD.drawString("Running " + this.currentMode.getModeName(), 0, 0);
+				LCD.drawString("Running " + currentMode.getModeName(), 0, 0);
 
 				while (Button.ESCAPE.isUp()) {
 					Delay.msDelay(50);
 				}
 				LCD.clear(0);
 
-				this.currentMode.disable();
+				currentMode.disable();
 
 				while (Button.ESCAPE.isDown()) {
 					Delay.msDelay(50);
 				}
 			}
-		} while (this.selected != this.quit);
+		} while (selected != quit);
 	}
 
 	private void message(int row, String text) {

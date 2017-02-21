@@ -16,18 +16,18 @@ public class IRController extends SensorController {
 	}
 
 	public float getSeekBearing() {
-		return this.samples.get("Seek")[0];
+		return samples.get("Seek")[0];
 	}
 
 	public int getCommand() {
-		return ((EV3IRSensor) this.sensor).getRemoteCommand(this.channel);
+		return ((EV3IRSensor) sensor).getRemoteCommand(channel);
 	}
 
 	public float getDistance() {
-		return this.samples.get("Distance")[0];
+		return samples.get("Distance")[0];
 	}
 
 	public float getSeekDistance() {
-		return this.samples.get("Seek")[1];
+		return samples.get("Seek")[1];
 	}
 }

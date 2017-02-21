@@ -11,7 +11,7 @@ public class Menu {
 	 */
 	public Menu(String[] menuItems) {
 		this.menuItems = menuItems;
-		this.menu = new TextMenu(this.menuItems);
+		menu = new TextMenu(this.menuItems);
 		
 	}
 
@@ -19,7 +19,7 @@ public class Menu {
 	public int showMenu() {
 		int selection;
 		
-		selection = this.menu.select();
+		selection = menu.select();
 		LCD.clear();
 		
 		return selection;

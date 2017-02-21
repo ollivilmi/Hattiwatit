@@ -19,32 +19,32 @@ public class MotorController extends DeviceController {
 				interval = 10;
 
 	public MotorController(Port right, Port left, int defaultSpeed) {
-		this.motorR = new EV3LargeRegulatedMotor(right);
-		this.motorL = new EV3LargeRegulatedMotor(left);
+		motorR = new EV3LargeRegulatedMotor(right);
+		motorL = new EV3LargeRegulatedMotor(left);
 		this.defaultSpeed = defaultSpeed;
 	}
 
 	@Override
 	protected void action() {
-		this.motorR.setSpeed(speedR);
+		motorR.setSpeed(speedR);
 
 		switch (directionR) {
 		case forward:
-			this.motorR.forward();
+			motorR.forward();
 			break;
 		case backward:
-			this.motorR.backward();
+			motorR.backward();
 			break;
 		}
 
-		this.motorL.setSpeed(speedL);
+		motorL.setSpeed(speedL);
 
 		switch (directionL) {
 		case forward:
-			this.motorL.forward();
+			motorL.forward();
 			break;
 		case backward:
-			this.motorL.backward();
+			motorL.backward();
 			break;
 		}
 
@@ -52,48 +52,48 @@ public class MotorController extends DeviceController {
 	}
 
 	public void backward() {
-		this.backward(this.defaultSpeed);
+		this.backward(defaultSpeed);
 	}
 
 	public void backward(int speed) {
-		this.setSpeed(speed);
-		this.directionR = Direction.forward;
-		this.directionL = Direction.forward;
+		setSpeed(speed);
+		directionR = Direction.forward;
+		directionL = Direction.forward;
 	}
 
 	@Override
 	protected void cleanUp() {
-		this.motorR.close();
-		this.motorL.close();
+		motorR.close();
+		motorL.close();
 	}
 
 	@Override
 	public void disable() {
-		this.halt();
+		halt();
 		super.disable();
 	}
 
 	@Override
 	public void enable() {
-		this.speedR = this.defaultSpeed;
-		this.speedL = this.defaultSpeed;
+		speedR = defaultSpeed;
+		speedL = defaultSpeed;
 		super.enable();
 	}
 
 	public void forward() {
-		this.forward(this.defaultSpeed);
+		this.forward(defaultSpeed);
 	}
 
 	public void forward(int speed) {
-		this.setSpeed(speed);
-		this.directionR = Direction.backward;
-		this.directionL = Direction.backward;
+		setSpeed(speed);
+		directionR = Direction.backward;
+		directionL = Direction.backward;
 	}
 
 	public void halt() {
-		this.setSpeed(0);
-		this.motorR.stop(true);
-		this.motorL.stop(true);
+		setSpeed(0);
+		motorR.stop(true);
+		motorL.stop(true);
 	}
 
 	public void left() {
@@ -101,9 +101,9 @@ public class MotorController extends DeviceController {
 	}
 
 	public void left(int speed) {
-		this.setSpeed(speed);
-		this.directionR = Direction.backward;
-		this.directionL = Direction.forward;
+		setSpeed(speed);
+		directionR = Direction.backward;
+		directionL = Direction.forward;
 	}
 
 	public void right() {
@@ -111,13 +111,13 @@ public class MotorController extends DeviceController {
 	}
 
 	public void right(int speed) {
-		this.setSpeed(speed);
-		this.directionR = Direction.forward;
-		this.directionL = Direction.backward;
+		setSpeed(speed);
+		directionR = Direction.forward;
+		directionL = Direction.backward;
 	}
 
 	public void setSpeed(int speed) {
-		this.speedR = speed;
-		this.speedL = speed;
+		speedR = speed;
+		speedL = speed;
 	}
 }

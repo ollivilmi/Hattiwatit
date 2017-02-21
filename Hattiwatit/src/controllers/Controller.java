@@ -8,22 +8,22 @@ public abstract class Controller extends Thread {
 	protected abstract void action();
 
 	public void terminate() {
-		this.alive = false;
+		alive = false;
 	}
 
 	public void enable() {
-		this.enabled = true;
+		enabled = true;
 	}
 
 	public void disable() {
-		this.enabled = false;
+		enabled = false;
 	}
 
 	@Override
 	public void run() {
-		while (this.alive) {
-			if (this.enabled) {
-				this.action();
+		while (alive) {
+			if (enabled) {
+				action();
 			}
 		}
 	}

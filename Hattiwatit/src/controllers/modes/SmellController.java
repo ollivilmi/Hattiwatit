@@ -15,10 +15,11 @@ public class SmellController extends ModeController {
 		super("Smell");
 		this.motor = motor;
 		this.color = color;
-		this.devices.add(color);
-		this.devices.add(motor);
+		devices.add(color);
+		devices.add(motor);
 	}
 
+	@Override
 	protected void action() {
 		switch (color.getColorID()) {
 		case Color.YELLOW:
@@ -27,19 +28,19 @@ public class SmellController extends ModeController {
 			// Tail wagging here
 			break;
 		default:
-			this.motor.forward();
+			motor.forward();
 			LCD.drawString("Seeking", 0, 5);
 			break;
 		}
 
-		Delay.msDelay(this.interval);
+		Delay.msDelay(interval);
 		
 		LCD.clear(5);
 	}
 	
 	@Override
 	public void enable() {
-		this.color.setMode("ColorID");
+		color.setMode("ColorID");
 		super.enable();
 	}
 }

@@ -20,36 +20,37 @@ public class PatrolController extends ModeController {
 		super("Patrol");
 		this.motor = motor;
 		this.ir = ir;
-		this.devices.add(this.ir);
-		this.devices.add(this.motor);
+		devices.add(this.ir);
+		devices.add(this.motor);
 	}
 
+	@Override
 	protected void action() {
-		this.distance = this.ir.getDistance();
+		distance = ir.getDistance();
 		String msg = "";
 		
 		// TODO: distances as variables
 		if (distance < 5) {
-			this.motor.backward();
+			motor.backward();
 			msg = "backward";
 		} else if (distance >= 5 && distance < 50) {
-			this.motor.right();
+			motor.right();
 			msg = "right";
 		} else if (distance >= 50) {
-			this.motor.forward();
+			motor.forward();
 			msg = "forward";
 		}
 		
 		LCD.drawString(msg, 0, 4);
 		
-		Delay.msDelay(this.interval);
+		Delay.msDelay(interval);
 		
 		LCD.clear(4);
 	}
 
 	@Override
 	public void enable() {
-		this.ir.setMode("Distance");
+		ir.setMode("Distance");
 		super.enable();
 	}
 }

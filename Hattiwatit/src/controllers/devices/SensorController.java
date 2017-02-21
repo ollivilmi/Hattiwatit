@@ -18,9 +18,9 @@ public abstract class SensorController extends DeviceController {
 		this.sensor = sensor;
 
 		String initialMode = this.sensor.getName();
-		this.setMode(initialMode);
+		setMode(initialMode);
 		
-		this.samples = new HashMap<String, float[]>();
+		samples = new HashMap<String, float[]>();
 
 		// populate samples
 		for (String m : sensor.getAvailableModes()) {
@@ -31,18 +31,18 @@ public abstract class SensorController extends DeviceController {
 	
 	@Override
 	protected void action() {
-		this.sensorMode.fetchSample(samples.get(modeName), 0);
+		sensorMode.fetchSample(samples.get(modeName), 0);
 		Delay.msDelay(interval);
 	}
 
 	@Override
 	protected void cleanUp() {
-		this.sensor.close();
+		sensor.close();
 	}
 
 	public void setMode(String mode) {
-		this.sensor.setCurrentMode(mode);
-		this.sensorMode = this.sensor.getMode(mode);
-		this.modeName = mode;
+		sensor.setCurrentMode(mode);
+		sensorMode = sensor.getMode(mode);
+		modeName = mode;
 	}
 }

@@ -9,18 +9,18 @@ public class ColorController extends SensorController {
 	}
 
 	public float getAmbient() {
-		return this.samples.get("Ambient")[0];
+		return samples.get("Ambient")[0];
 	}
 
 	public int getColorID() {
-		return (int) this.samples.get("ColorID")[0];
+		return (int) samples.get("ColorID")[0];
 	}
 
 	public float getRed() {
-		return this.samples.get("Red")[0];
+		return samples.get("Red")[0];
 	}
 
 	public float[] getRGB() {
-		return this.samples.get("RGB");
+		return samples.get("RGB");
 	}
 }

@@ -24,38 +24,39 @@ public class FollowController extends ModeController {
 		super("Follow");
 		this.motor = motor;
 		this.ir = ir;
-		this.devices.add(ir);
-		this.devices.add(motor);
+		devices.add(ir);
+		devices.add(motor);
 	}
 
+	@Override
 	protected void action() {
-		this.distance = this.ir.getSeekDistance();
-		this.bearing = this.ir.getSeekBearing();
+		distance = ir.getSeekDistance();
+		bearing = ir.getSeekBearing();
 		String msg = "";
 		
-		if (this.distance <= this.distanceMin || (this.distance >= this.distanceMax && this.bearing == 0)) {
+		if (distance <= distanceMin || (distance >= distanceMax && bearing == 0)) {
 			msg = "halt";
-			this.motor.halt();
-		} else if (this.bearing < (-this.forwardThreshold)) {
+			motor.halt();
+		} else if (bearing < (-forwardThreshold)) {
 			msg = "left";
-			this.motor.left();
-		} else if (this.bearing <= this.forwardThreshold && this.bearing >= (-this.forwardThreshold)) {
+			motor.left();
+		} else if (bearing <= forwardThreshold && bearing >= (-forwardThreshold)) {
 			msg = "forward";
-			this.motor.forward();
-		} else if (this.bearing > this.forwardThreshold) {
+			motor.forward();
+		} else if (bearing > forwardThreshold) {
 			msg = "right";
-			this.motor.right();
+			motor.right();
 		}
 		
 		LCD.clear(4);
 		LCD.drawString(msg, 0, 4);
 		
-		Delay.msDelay(this.interval);
+		Delay.msDelay(interval);
 	}
 
 	@Override
 	public void enable() {
-		this.ir.setMode("Seek");
+		ir.setMode("Seek");
 		super.enable();
 	}
 }
