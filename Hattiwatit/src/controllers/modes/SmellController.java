@@ -2,8 +2,8 @@ package controllers.modes;
 
 import controllers.devices.ColorController;
 import controllers.devices.MotorController;
-import lejos.hardware.lcd.LCD;
 import lejos.robotics.Color;
+import main.Doge;
 
 public class SmellController extends ModeController {
 	private MotorController motor;
@@ -19,17 +19,15 @@ public class SmellController extends ModeController {
 
 	@Override
 	protected void action() {
-		LCD.clear(5);
-
 		switch (color.getColorID()) {
 		case Color.YELLOW:
-			LCD.drawString("Pee", 0, 5);
+			Doge.message(5, "Pee");
 			motor.halt();
 			// Tail wagging here
 			break;
 		default:
 			motor.forward();
-			LCD.drawString("Seeking", 0, 5);
+			Doge.message(5, "Seeking");
 			break;
 		}
 	}

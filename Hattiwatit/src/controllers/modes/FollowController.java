@@ -2,7 +2,7 @@ package controllers.modes;
 
 import controllers.devices.IRController;
 import controllers.devices.MotorController;
-import lejos.hardware.lcd.LCD;
+import main.Doge;
 
 public class FollowController extends ModeController {
 	private MotorController motor;
@@ -46,8 +46,7 @@ public class FollowController extends ModeController {
 			motor.right();
 		}
 
-		LCD.clear(4);
-		LCD.drawString(msg, 0, 4);
+		Doge.message(4, msg);
 	}
 
 	@Override

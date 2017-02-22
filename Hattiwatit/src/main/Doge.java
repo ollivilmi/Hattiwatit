@@ -96,7 +96,7 @@ public class Doge {
 				currentMode.enable();
 
 				// TODO: tell the user how to quit
-				LCD.drawString("Running " + currentMode.getModeName(), 0, 0);
+				message(0, "Running " + currentMode.getModeName());
 
 				while (Button.ESCAPE.isUp()) {
 					Delay.msDelay(50);
@@ -112,7 +112,7 @@ public class Doge {
 		} while (selected != quit);
 	}
 
-	private void message(int row, String text) {
+	public static void message(int row, String text) {
 		LCD.clear(row);
 		LCD.drawString(text, 0, row);
 	}
