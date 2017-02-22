@@ -67,7 +67,9 @@ public class Doge {
 		}
 		quit = modeList.size();
 
-		menuItems = modeNames.toArray(new String[modeList.size() + 1]);
+		// menu includes all modes + Quit
+		int menuSize = modeList.size() + 1;
+		menuItems = modeNames.toArray(new String[menuSize]);
 		menuItems[quit] = "Quit";
 
 		menu = new Menu(menuItems);
