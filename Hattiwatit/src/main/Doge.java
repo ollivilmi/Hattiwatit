@@ -72,7 +72,7 @@ public class Doge {
 		menuItems = modeNames.toArray(new String[menuSize]);
 		menuItems[quit] = "Quit";
 
-		menu = new Menu(menuItems);
+		menu = new Menu(menuItems, "Doge");
 
 		LCD.clear(0);
 	}
