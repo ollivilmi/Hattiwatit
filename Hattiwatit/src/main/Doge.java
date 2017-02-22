@@ -95,13 +95,14 @@ public class Doge {
 				currentMode = modeList.get(selected);
 				currentMode.enable();
 
-				// TODO: tell the user how to quit
 				message(0, "Running " + currentMode.getModeName());
+				message(7, "Escape to quit");
 
 				while (Button.ESCAPE.isUp()) {
 					Delay.msDelay(50);
 				}
 				LCD.clear(0);
+				LCD.clear(7);
 
 				currentMode.disable();
 
