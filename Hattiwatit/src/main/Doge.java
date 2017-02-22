@@ -101,10 +101,10 @@ public class Doge {
 				while (Button.ESCAPE.isUp()) {
 					Delay.msDelay(50);
 				}
-				LCD.clear(0);
-				LCD.clear(7);
 
 				currentMode.disable();
+				
+				LCD.clear();
 
 				while (Button.ESCAPE.isDown()) {
 					Delay.msDelay(50);
