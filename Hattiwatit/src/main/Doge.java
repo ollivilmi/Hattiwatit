@@ -2,7 +2,9 @@ package main;
 
 import java.util.ArrayList;
 
+import controllers.Controller;
 import controllers.devices.ColorController;
+import controllers.devices.DeviceController;
 import controllers.devices.IRController;
 import controllers.devices.MotorController;
 import controllers.modes.FollowController;
@@ -24,6 +26,7 @@ public class Doge {
 	private SmellController smell;
 
 	private Menu menu;
+	private ArrayList<DeviceController> deviceList;
 	private ArrayList<ModeController> modeList;
 	private ArrayList<String> modeNames;
 	private String[] menuItems;
@@ -41,21 +44,19 @@ public class Doge {
 		message(1, "colors...");
 		color = new ColorController(colorPort);
 
-		motor.start();
-		ir.start();
-		color.start();
+		deviceList = new ArrayList<DeviceController>();
+		deviceList.add(motor);
+		deviceList.add(ir);
+		deviceList.add(color);
 
 		message(1, "modes...");
 		follower = new FollowController(ir, motor);
 		patrol = new PatrolController(ir, motor);
 		smell = new SmellController(color, motor);
 
-		follower.start();
-		patrol.start();
-		smell.start();
-
 		LCD.clear(1);
 		message(0, "Creating menu...");
+
 		modeList = new ArrayList<ModeController>();
 		modeList.add(follower);
 		modeList.add(patrol);
@@ -78,20 +79,14 @@ public class Doge {
 		LCD.clear(0);
 	}
 
-	public void loopMenu() {
+	private void loopMenu() {
 		do {
 			selected = menu.showMenu();
 			selected = (selected < 0) ? quit : selected;
 
 			if (selected == quit) {
 				// Euthanize
-				follower.terminate();
-				patrol.terminate();
-				smell.terminate();
-
-				motor.terminate();
-				ir.terminate();
-				color.terminate();
+				stop();
 			} else {
 				currentMode = modeList.get(selected);
 				currentMode.enable();
@@ -117,5 +112,27 @@ public class Doge {
 	public static void message(int row, String text) {
 		LCD.clear(row);
 		LCD.drawString(text, 0, row);
+	}
+
+	public void start() {
+		for (Runnable device : deviceList) {
+			new Thread(device).start();
+		}
+
+		for (Runnable mode : modeList) {
+			new Thread(mode).start();
+		}
+
+		loopMenu();
+	}
+
+	private void stop() {
+		for (Controller device : deviceList) {
+			device.terminate();
+		}
+
+		for (Controller mode : modeList) {
+			mode.terminate();
+		}
 	}
 }

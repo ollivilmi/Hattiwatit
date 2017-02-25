@@ -2,8 +2,7 @@ package controllers;
 
 import lejos.utility.Delay;
 
-// TODO: implements Runnable
-public abstract class Controller extends Thread {
+public abstract class Controller implements Runnable {
 	protected boolean alive = true;
 	protected boolean enabled = false;
 	protected int interval = 10;
