@@ -65,11 +65,12 @@ public class Doge {
 		for (ModeController mc : modeList) {
 			modeNames.add(mc.getModeName());
 		}
-		quit = modeList.size();
 
 		// menu includes all modes + Quit
 		int menuSize = modeList.size() + 1;
 		menuItems = modeNames.toArray(new String[menuSize]);
+		
+		quit = menuSize - 1;
 		menuItems[quit] = "Quit";
 
 		menu = new Menu(menuItems, "Doge");
