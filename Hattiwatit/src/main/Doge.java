@@ -35,11 +35,9 @@ public class Doge {
 
 	public Doge(Port irPort, Port colorPort, Port motorR, Port motorL) {
 		message(0, "Starting");
-		message(1, "motors...");
+		message(1, "devices...");
 		motor = new MotorController(motorR, motorL, 360);
-		message(1, "IR...");
 		ir = new IRController(irPort);
-		message(1, "colors...");
 		color = new ColorController(colorPort);
 
 		deviceList = new ArrayList<DeviceController>();
@@ -52,9 +50,7 @@ public class Doge {
 		patrol = new PatrolController(ir, motor);
 		smell = new SmellController(color, motor);
 
-		LCD.clear(1);
-		message(0, "Creating menu...");
-
+		message(1, "menu...");
 		modeList = new ArrayList<ModeController>();
 		modeList.add(follower);
 		modeList.add(patrol);
@@ -74,7 +70,7 @@ public class Doge {
 
 		menu = new Menu(menuItems, "Doge");
 
-		LCD.clear(0);
+		LCD.clear();
 	}
 
 	private void loopMenu() {
