@@ -33,8 +33,6 @@ public class Doge {
 	private int selected,
 				quit;
 
-	private ModeController currentMode;
-
 	public Doge(Port irPort, Port colorPort, Port motorR, Port motorL) {
 		message(0, "Starting");
 		message(1, "motors...");
@@ -88,23 +86,7 @@ public class Doge {
 				// Euthanize
 				stop();
 			} else {
-				currentMode = modeList.get(selected);
-				currentMode.enable();
-
-				message(0, "Running " + currentMode.getModeName());
-				message(7, "Escape to quit");
-
-				while (Button.ESCAPE.isUp()) {
-					Delay.msDelay(50);
-				}
-
-				currentMode.disable();
-				
-				LCD.clear();
-
-				while (Button.ESCAPE.isDown()) {
-					Delay.msDelay(50);
-				}
+				runMode(modeList.get(selected));
 			}
 		} while (selected != quit);
 	}
@@ -126,6 +108,25 @@ public class Doge {
 		loopMenu();
 	}
 
+	private void runMode(ModeController currentMode) {
+		currentMode.enable();
+
+		message(0, "Running " + currentMode.getModeName());
+		message(7, "Escape to quit");
+
+		while (Button.ESCAPE.isUp()) {
+			Delay.msDelay(50);
+		}
+
+		currentMode.disable();
+		
+		LCD.clear();
+
+		while (Button.ESCAPE.isDown()) {
+			Delay.msDelay(50);
+		}
+	}
+	
 	private void stop() {
 		for (Controller device : deviceList) {
 			device.terminate();
