@@ -2,6 +2,7 @@ package controllers.devices;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
+import lejos.utility.Delay;
 
 public class MotorController extends DeviceController {
 	private enum Direction {
@@ -65,8 +66,10 @@ public class MotorController extends DeviceController {
 
 	@Override
 	public void disable() {
-		halt();
+		// fixes one motor keeps running
 		super.disable();
+		Delay.msDelay(interval);
+		halt();
 	}
 
 	@Override
