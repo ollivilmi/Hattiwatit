@@ -81,7 +81,7 @@ public class Doge {
 	public void loopMenu() {
 		do {
 			selected = menu.showMenu();
-			selected = (selected == -1) ? quit : selected;
+			selected = (selected < 0) ? quit : selected;
 
 			if (selected == quit) {
 				// Euthanize
