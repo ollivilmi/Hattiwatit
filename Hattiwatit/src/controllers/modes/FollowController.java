@@ -37,13 +37,13 @@ public class FollowController extends ModeController {
 			motor.halt();
 		} else if (bearing < (-forwardThreshold)) {
 			msg = "left";
-			motor.left();
+			motor.rollLeft();
 		} else if (bearing <= forwardThreshold && bearing >= (-forwardThreshold)) {
 			msg = "forward";
 			motor.forward();
 		} else if (bearing > forwardThreshold) {
 			msg = "right";
-			motor.right();
+			motor.rollRight();
 		}
 
 		Doge.message(4, msg);

@@ -95,21 +95,21 @@ public class MotorController extends DeviceController {
 		motorL.stop(true);
 	}
 
-	public void left() {
-		this.left(defaultSpeed);
+	public void rollLeft() {
+		this.rollLeft(defaultSpeed);
 	}
 
-	public void left(int speed) {
+	public void rollLeft(int speed) {
 		setSpeed(speed);
 		directionR = Direction.backward;
 		directionL = Direction.forward;
 	}
 
-	public void right() {
-		this.right(defaultSpeed);
+	public void rollRight() {
+		this.rollRight(defaultSpeed);
 	}
 
-	public void right(int speed) {
+	public void rollRight(int speed) {
 		setSpeed(speed);
 		directionR = Direction.forward;
 		directionL = Direction.backward;

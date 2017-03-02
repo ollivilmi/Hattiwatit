@@ -30,11 +30,10 @@ public class PatrolController extends ModeController {
 		distance = ir.getDistance(); //Gets distance
 		String msg = "";
 		
-		
 		if (distance >= 5 && distance < 50) { //Turn right when something is in front
 			msg = "right";
 			while (distance >= 5 && distance < 50) {
-				motor.right();
+				motor.rollRight();
 			}
 		} else if (distance >= 50) { //Move forward when the way is clear
 			motor.forward();
