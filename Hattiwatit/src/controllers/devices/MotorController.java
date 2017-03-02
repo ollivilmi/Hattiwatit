@@ -29,10 +29,10 @@ public class MotorController extends DeviceController {
 
 		switch (directionR) {
 		case forward:
-			motorR.forward();
+			motorR.backward();
 			break;
 		case backward:
-			motorR.backward();
+			motorR.forward();
 			break;
 		}
 
@@ -40,10 +40,10 @@ public class MotorController extends DeviceController {
 
 		switch (directionL) {
 		case forward:
-			motorL.forward();
+			motorL.backward();
 			break;
 		case backward:
-			motorL.backward();
+			motorL.forward();
 			break;
 		}
 	}
@@ -54,8 +54,8 @@ public class MotorController extends DeviceController {
 
 	public void backward(int speed) {
 		setSpeed(speed);
-		directionR = Direction.forward;
-		directionL = Direction.forward;
+		directionR = Direction.backward;
+		directionL = Direction.backward;
 	}
 
 	@Override
@@ -85,8 +85,8 @@ public class MotorController extends DeviceController {
 
 	public void forward(int speed) {
 		setSpeed(speed);
-		directionR = Direction.backward;
-		directionL = Direction.backward;
+		directionR = Direction.forward;
+		directionL = Direction.forward;
 	}
 
 	public void halt() {
@@ -101,8 +101,8 @@ public class MotorController extends DeviceController {
 
 	public void rollLeft(int speed) {
 		setSpeed(speed);
-		directionR = Direction.backward;
-		directionL = Direction.forward;
+		directionR = Direction.forward;
+		directionL = Direction.backward;
 	}
 
 	public void rollRight() {
@@ -111,8 +111,8 @@ public class MotorController extends DeviceController {
 
 	public void rollRight(int speed) {
 		setSpeed(speed);
-		directionR = Direction.forward;
-		directionL = Direction.backward;
+		directionR = Direction.backward;
+		directionL = Direction.forward;
 	}
 
 	public void setSpeed(int speed) {
