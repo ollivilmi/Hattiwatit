@@ -21,6 +21,10 @@ public class Timer extends DeviceController {
 			timer = 1;
 		}
 	}
+	/**
+	 * 
+	 * @return Returns 1-2, changes every second
+	 */
 	public int getTimer() {
 		return this.timer;
 	}

@@ -17,10 +17,8 @@ public class PatrolWIP extends ModeController {
 
 	/**
 	 * 
-	 * @param ir
-	 *            sensor Uses distance sensor to see what is in front
-	 * @param motor
-	 *            Uses motor to move
+	 * @param ir sensor Uses distance sensor to see what is in front
+	 * @param motor Uses motor to move
 	 */
 	public PatrolWIP(IRController ir, MotorController motor, Timer timer) {
 		super("PatrolWIP"); // Names the mode as Patrol in the arraylist
@@ -45,17 +43,17 @@ public class PatrolWIP extends ModeController {
 		timer = getTimer.getTimer(); // Gets a timer value
 		direction = random.nextInt(2) + 1; // Randomly chooses 1 or 2
 		Doge.message(6, "Random: " + Integer.toString(direction));
-
-		if (distance > 5 && distance <= 50) {
-			motor.left();
-			while (distance > 5 && distance <= 50) {
+		
+		if (distance > 5 && distance <= 50) { //If something is in front
+			motor.rollLeft();
+			while (distance > 5 && distance <= 50) { //Keeps turning until the way is clear 
 				Delay.msDelay(100);
 				distance = ir.getDistance();
 			}
 		} else
-			switch (direction) {
+			switch (direction) { //Switch for random movement orders
 			case 1:
-				motor.left(); // TODO: sharp and soft turns
+				motor.rollLeft(); // sharp turn left
 				msg = "Left";
 				while (timer == getTimer.getTimer() && distance > 50) { // 1 Second interval to go left
 					distance = ir.getDistance();
@@ -63,7 +61,7 @@ public class PatrolWIP extends ModeController {
 				}
 				break;
 			case 2:
-				motor.right(); // TODO: sharp and soft turns
+				motor.rollRight(); // sharp turn right
 				msg = "Right";
 				while (timer == getTimer.getTimer() && distance > 50) { // 1 Second interval to go right
 					distance = ir.getDistance();
@@ -72,6 +70,7 @@ public class PatrolWIP extends ModeController {
 				break;
 			}
 		Doge.message(4, msg); // LCD prints
+		//TODO: add more random movement options
 	}
 
 	/**

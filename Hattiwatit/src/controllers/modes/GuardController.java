@@ -16,7 +16,12 @@ public class GuardController extends ModeController {
 	private Timer getTimer;
 	private MotorController motor;
 	private int timer;
-
+/**
+ * 
+ * @param ir Uses IR sensor to see what is in front
+ * @param motor Uses motor to move
+ * @param timer Uses timer to alternate moving pattern
+ */
 	public GuardController(IRController ir, MotorController motor, Timer timer) {
 		super("Guard");
 		this.ir = ir;
@@ -24,29 +29,29 @@ public class GuardController extends ModeController {
 		this.motor = motor;
 		devices.add(this.ir);
 		devices.add(this.getTimer);
-		devices.add(this.motor);
+		devices.add(this.motor); //Devices this program uses
 	}
 
 	@Override
 	protected void action() {
-		distance = ir.getDistance();
+		distance = ir.getDistance(); 
 		timer = getTimer.getTimer();
 		String msg = "";
 
-		if (distance > 5 && distance <= 50) {
-			motor.halt();
+		if (distance > 5 && distance <= 50) { //If something is in front
+			motor.halt(); //Stop moving
 			Doge.message(5, "Woof");
 			do {
 				distance = ir.getDistance();
-				Sound.playSample(bark, 100);
+				Sound.playSample(bark, 100); //Keep barking until the way is clear
 				Delay.msDelay(10);
 				msg = "distance:"+Float.toString(distance);
 			} while (distance > 5 && distance <= 50);
 
 		} else
-			switch (timer) {
+			switch (timer) { //switch case uses timer to alternate moving
 			case 1:
-				motor.forward();
+				motor.forward(); //forward
 				msg = "Forward";
 				while (timer == 1 && distance > 50) {
 					timer = getTimer.getTimer();
@@ -56,7 +61,7 @@ public class GuardController extends ModeController {
 				break;
 
 			case 2:
-				motor.left();
+				motor.rollLeft(); //left
 				msg = "Left";
 				while (timer == 2 && distance > 50) {
 					timer = getTimer.getTimer();
@@ -67,6 +72,7 @@ public class GuardController extends ModeController {
 
 			}
 		Doge.message(4, msg);
+		//TODO: Fine tune moving pattern, add different patterns that you can choose from
 	}
 
 	@Override
