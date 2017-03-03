@@ -5,7 +5,7 @@ import lejos.hardware.port.Port;
 import lejos.utility.Delay;
 
 public class MotorController extends DeviceController {
-	private enum Direction {
+	public enum Direction {
 		backward, forward
 	}
 
@@ -53,9 +53,7 @@ public class MotorController extends DeviceController {
 	}
 
 	public void backward(int speed) {
-		setSpeed(speed);
-		directionR = Direction.backward;
-		directionL = Direction.backward;
+		move(speed, speed, Direction.backward, Direction.backward);
 	}
 
 	@Override
@@ -84,9 +82,23 @@ public class MotorController extends DeviceController {
 	}
 
 	public void forward(int speed) {
-		setSpeed(speed);
-		directionR = Direction.forward;
-		directionL = Direction.forward;
+		move(speed, speed, Direction.forward, Direction.forward);
+	}
+	
+	public void gentleLeft() {
+		gentleLeft(defaultSpeed);
+	}
+	
+	public void gentleLeft(int speed) {
+		move(speed, (int) (.7 * speed), Direction.forward, Direction.forward);
+	}
+	
+	public void gentleRight() {
+		gentleRight(defaultSpeed);
+	}
+	
+	public void gentleRight(int speed) {
+		move((int ) (.7 * speed), speed, Direction.forward, Direction.forward);
 	}
 
 	public void halt() {
@@ -95,14 +107,18 @@ public class MotorController extends DeviceController {
 		motorL.stop(true);
 	}
 
+	public void move(int speedR, int speedL, Direction dirR, Direction dirL) {
+		setSpeed(speedR, speedL);
+		directionR = dirR;
+		directionL = dirL;
+	}
+	
 	public void rollLeft() {
 		this.rollLeft(defaultSpeed);
 	}
 
 	public void rollLeft(int speed) {
-		setSpeed(speed);
-		directionR = Direction.forward;
-		directionL = Direction.backward;
+		move(speed, speed, Direction.forward, Direction.backward);
 	}
 
 	public void rollRight() {
@@ -110,13 +126,31 @@ public class MotorController extends DeviceController {
 	}
 
 	public void rollRight(int speed) {
-		setSpeed(speed);
-		directionR = Direction.backward;
-		directionL = Direction.forward;
+		move(speed, speed, Direction.backward, Direction.forward);
 	}
 
 	public void setSpeed(int speed) {
-		speedR = speed;
-		speedL = speed;
+		setSpeed(speed, speed);
+	}
+	
+	public void setSpeed(int speedR, int speedL) {
+		this.speedR = speedR;
+		this.speedL = speedL;
+	}
+	
+	public void sharpLeft() {
+		sharpLeft(defaultSpeed);
+	}
+	
+	public void sharpLeft(int speed) {
+		move(speed, (int) (.3 * speed), Direction.forward, Direction.forward);
+	}
+	
+	public void sharpRight() {
+		sharpRight(defaultSpeed);
+	}
+	
+	public void sharpRight(int speed) {
+		move((int ) (.3 * speed), speed, Direction.forward, Direction.forward);
 	}
 }
