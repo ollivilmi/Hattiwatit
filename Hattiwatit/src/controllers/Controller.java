@@ -23,10 +23,14 @@ public abstract class Controller implements Runnable {
 
 	@Override
 	public void run() {
-		while (alive) {
+		while (alive) { 
 			if (enabled) {
-				action();
-				Delay.msDelay(interval);
+				try {
+					action();
+					Delay.msDelay(interval);
+				} catch (RuntimeException e) {
+					//empty
+				}
 			}
 		}
 	}
