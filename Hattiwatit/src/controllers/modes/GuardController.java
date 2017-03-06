@@ -60,7 +60,7 @@ public class GuardController extends ModeController {
 		} else
 			switch (timer) { // switch case uses timer to alternate moving
 			case 1:
-				motor.forward(); // forward
+				motor.forward(600); // forward
 				Doge.message(4, "Forward");
 				while (timer == 1 && distance > 50) {
 					timer = getTimer.getTimer();
@@ -70,7 +70,7 @@ public class GuardController extends ModeController {
 				break;
 
 			case 2:
-				motor.rollLeft(); // left
+				motor.rollLeft(300); // left
 				Doge.message(4, "Left");
 				while (timer == 2 && distance > 50) {
 					timer = getTimer.getTimer();

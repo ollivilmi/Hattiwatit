@@ -14,7 +14,7 @@ public class Timer extends DeviceController {
 	@Override
 	protected void action() {
 		while (timer <3) {
-		Delay.msDelay(1000);
+		Delay.msDelay(2000);
 		timer++;
 		}
 		if (timer >= 3) {

@@ -41,37 +41,20 @@ public class PatrolWIP extends ModeController {
 	protected void action() {
 		distance = ir.getDistance(); 
 		timer = getTimer.getTimer(); 
-		direction = random.nextInt(6) + 1;
+		direction = random.nextInt(4) + 1;
 		Doge.message(6, "Random: " + Integer.toString(direction));
 		
 		if (distance > 5 && distance <= 50) { //If something is in front
 			motor.rollLeft();
 			while (distance > 5 && distance <= 50) { //Turns around
+				Doge.message(4, "distance:" + Float.toString(distance));
 				Delay.msDelay(1000);
 				distance = ir.getDistance();
 			}
 		} else
 			switch (direction) { //Switch for random movement orders
 			case 1:
-				motor.rollLeft();
-				Doge.message(4, "Roll left");
-				while (timer == getTimer.getTimer() && distance > 50) { // Timer interval
-					distance = ir.getDistance();
-					Delay.msDelay(10);
-				}
-				break;
-				
-			case 2:
-				motor.rollRight();
-				Doge.message(4, "Roll right");
-				while (timer == getTimer.getTimer() && distance > 50) { 
-					distance = ir.getDistance();
-					Delay.msDelay(10);
-				}
-				break;
-				
-			case 3:
-				motor.gentleLeft();
+				motor.gentleLeft(700);
 				Doge.message(4, "Gentle left");
 				while (timer == getTimer.getTimer() && distance > 50) {
 					distance = ir.getDistance();
@@ -79,15 +62,15 @@ public class PatrolWIP extends ModeController {
 				}
 				break;
 
-			case 4:
-				motor.gentleRight();
+			case 2:
+				motor.gentleRight(700);
 				Doge.message(4, "Gentle right");
 				while (timer == getTimer.getTimer() && distance > 50) {
 					distance = ir.getDistance();
 					Delay.msDelay(10);
 				}
-			case 5:
-				motor.sharpLeft();
+			case 3:
+				motor.sharpLeft(700);
 				Doge.message(4, "Sharp left");
 				while (timer == getTimer.getTimer() && distance > 50) {
 					distance = ir.getDistance();
@@ -95,8 +78,8 @@ public class PatrolWIP extends ModeController {
 				}
 				break;
 				
-			case 6:
-				motor.sharpRight();
+			case 4:
+				motor.sharpRight(700);
 				Doge.message(4, "Sharp right");
 				while (timer == getTimer.getTimer() && distance > 50) {
 					distance = ir.getDistance();
