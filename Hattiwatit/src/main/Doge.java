@@ -11,7 +11,6 @@ import controllers.modes.FollowController;
 import controllers.modes.GuardController;
 import controllers.modes.ModeController;
 import controllers.modes.PatrolController;
-import controllers.modes.SmellController;
 import functions.Timer;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
@@ -25,7 +24,6 @@ public class Doge {
 
 	private FollowController follower;
 	private PatrolController patrol;
-	private SmellController smell;
 	private GuardController guard;
 	
 	private Timer timer;
@@ -54,8 +52,7 @@ public class Doge {
 
 		message(1, "modes...");
 		follower = new FollowController(ir, motor);
-		patrol = new PatrolController(ir, motor, timer);
-		smell = new SmellController(color, motor);
+		patrol = new PatrolController(ir, motor, timer, color);
 		guard = new GuardController(ir, motor, timer);
 		
 
@@ -63,7 +60,6 @@ public class Doge {
 		modeList = new ArrayList<ModeController>();
 		modeList.add(follower);
 		modeList.add(patrol);
-		modeList.add(smell);
 		modeList.add(guard);
 
 		modeNames = new ArrayList<String>();
