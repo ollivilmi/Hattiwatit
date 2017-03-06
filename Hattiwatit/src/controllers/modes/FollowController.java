@@ -4,18 +4,23 @@ import controllers.devices.IRController;
 import controllers.devices.MotorController;
 import main.Doge;
 
+/**
+ * Follows the IR remote within ~2 meter radius.
+ */
 public class FollowController extends ModeController {
 	private MotorController motor;
 	private IRController ir;
-	private float distance, bearing;
-	private int distanceMin = 5,
-				distanceMax = 99,
-				forwardThreshold = 4;
+	private float distance;
+	private float bearing;
+	private int distanceMin = 5;
+	private int distanceMax = 99;
+	private int forwardThreshold = 4;
 
 	/**
-	 * 
-	 * @param sensor
+	 * @param ir
+	 *            IR controller to use
 	 * @param motor
+	 *            Motor controller to use
 	 */
 	public FollowController(IRController ir, MotorController motor) {
 		// TODO: name as a variable
@@ -26,6 +31,9 @@ public class FollowController extends ModeController {
 		devices.add(motor);
 	}
 
+	/**
+	 * Gets the remote's position and moves towards it.
+	 */
 	@Override
 	protected void action() {
 		distance = ir.getSeekDistance();

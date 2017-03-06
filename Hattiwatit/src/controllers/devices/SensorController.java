@@ -5,13 +5,24 @@ import java.util.HashMap;
 import lejos.hardware.sensor.BaseSensor;
 import lejos.hardware.sensor.SensorMode;
 
+/**
+ * Controller for sensors which implement the BaseSensor interface, e.g.
+ * IR and color sensors.
+ */
 public abstract class SensorController extends DeviceController {
-
 	protected BaseSensor sensor;
 	protected SensorMode sensorMode;
 	protected String modeName;
+
+	/**
+	 * Stores samples for each of the sensors modes.
+	 */
 	protected HashMap<String, float[]> samples;
 
+	/**
+	 * @param sensor
+	 *            Sensor to fetch samples from.
+	 */
 	public SensorController(BaseSensor sensor) {
 		this.sensor = sensor;
 
@@ -37,6 +48,12 @@ public abstract class SensorController extends DeviceController {
 		sensor.close();
 	}
 
+	/**
+	 * Switches the sensor's operating mode.
+	 * 
+	 * @param mode
+	 *            The mode to switch to.
+	 */
 	public void setMode(String mode) {
 		sensor.setCurrentMode(mode);
 		sensorMode = sensor.getMode(mode);
