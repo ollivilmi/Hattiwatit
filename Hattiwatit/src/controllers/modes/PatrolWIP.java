@@ -60,6 +60,7 @@ public class PatrolWIP extends ModeController {
 				motor.gentleLeft(700);
 				Doge.message(4, "Gentle left");
 				while (timer == getTimer.getTimer() && distance > 50) { // Timer interval
+																		
 					distance = ir.getDistance();
 					Delay.msDelay(10);
 				}
@@ -90,7 +91,6 @@ public class PatrolWIP extends ModeController {
 					Delay.msDelay(10);
 				}
 				break;
-
 			}
 		// TODO: add more random movement options
 	}
