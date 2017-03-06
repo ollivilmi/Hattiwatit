@@ -2,45 +2,93 @@ package controllers.modes;
 
 import controllers.devices.IRController;
 import controllers.devices.MotorController;
+import functions.Timer;
+import lejos.utility.Delay;
 import main.Doge;
+import java.util.Random;
 
 public class PatrolController extends ModeController {
 	private MotorController motor;
 	private IRController ir;
 	private float distance;
+	private int timer, direction;
+	private Timer getTimer;
+	private Random random;
 
 	/**
 	 * 
 	 * @param ir sensor Uses distance sensor to see what is in front
 	 * @param motor Uses motor to move
+	 * @param Timer Uses timer to alternate moving patterns
 	 */
-	public PatrolController(IRController ir, MotorController motor) {
-		super("Patrol"); //Names the mode as Patrol in the arraylist
+	public PatrolController(IRController ir, MotorController motor, Timer timer) {
+		super("Patrol"); // Adds name to a list of mode names
 		this.motor = motor;
 		this.ir = ir;
+		this.getTimer = timer;
+		this.random = new Random();
 		devices.add(this.ir);
-		devices.add(this.motor); //Devices which this mode uses
+		devices.add(this.motor);
+		devices.add(this.getTimer); // Devices this program uses, disables them
+		// when you disable the program
 	}
-/**
- * Turn right when something is in front
- * Move forward when the way is clear
- */
+
+	/**
+	 * Sharp turn left when something is in front Steer right or left when the
+	 * way is clear
+	 */
 	@Override
 	protected void action() {
-		distance = ir.getDistance(); //Gets distance
-		String msg = "";
+		distance = ir.getDistance(); 
+		timer = getTimer.getTimer(); 
+		direction = random.nextInt(4) + 1;
+		Doge.message(6, "Random: " + Integer.toString(direction));
 		
-		if (distance >= 5 && distance < 50) { //Turn right when something is in front
-			msg = "right";
-			while (distance >= 5 && distance < 50) {
-				motor.rollRight();
+		if (distance > 5 && distance <= 50) { //If something is in front
+			motor.rollLeft();
+			while (distance > 5 && distance <= 50) { //Turns around
+				Doge.message(4, "distance:" + Float.toString(distance));
+				Delay.msDelay(1000);
+				distance = ir.getDistance();
 			}
-		} else if (distance >= 50) { //Move forward when the way is clear
-			motor.forward();
-			msg = "forward";
-		}
-		//TODO  make movement random by using timer and java.util.rand
-		Doge.message(4, msg); //LCD prints
+		} else
+			switch (direction) { //Switch for random movement orders
+			case 1:
+				motor.gentleLeft(700);
+				Doge.message(4, "Gentle left");
+				while (timer == getTimer.getTimer() && distance > 50) {
+					distance = ir.getDistance();
+					Delay.msDelay(10);
+				}
+				break;
+
+			case 2:
+				motor.gentleRight(700);
+				Doge.message(4, "Gentle right");
+				while (timer == getTimer.getTimer() && distance > 50) {
+					distance = ir.getDistance();
+					Delay.msDelay(10);
+				}
+			case 3:
+				motor.sharpLeft(700);
+				Doge.message(4, "Sharp left");
+				while (timer == getTimer.getTimer() && distance > 50) {
+					distance = ir.getDistance();
+					Delay.msDelay(10);
+				}
+				break;
+				
+			case 4:
+				motor.sharpRight(700);
+				Doge.message(4, "Sharp right");
+				while (timer == getTimer.getTimer() && distance > 50) {
+					distance = ir.getDistance();
+					Delay.msDelay(10);
+				}
+				break;
+				
+			}
+		//TODO: add more random movement options
 	}
 
 	/**
@@ -50,5 +98,11 @@ public class PatrolController extends ModeController {
 	public void enable() {
 		ir.setMode("Distance");
 		super.enable();
+	}
+
+	@Override
+	public void disable() {
+		distance = 0;
+		super.disable();
 	}
 }
