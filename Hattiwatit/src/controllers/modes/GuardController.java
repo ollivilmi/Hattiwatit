@@ -16,43 +16,52 @@ public class GuardController extends ModeController {
 	private Timer getTimer;
 	private MotorController motor;
 	private int timer;
-/**
- * 
- * @param ir Uses IR sensor to see what is in front
- * @param motor Uses motor to move
- * @param timer Uses timer to alternate moving pattern
- */
+
+	/**
+	 * 
+	 * @param ir
+	 *            Uses IR sensor to see what is in front
+	 * @param motor
+	 *            Uses motor to move
+	 * @param timer
+	 *            Uses timer to alternate moving pattern
+	 */
 	public GuardController(IRController ir, MotorController motor, Timer timer) {
-		super("Guard");
+		super("Guard"); // Adds name to a list of mode names
 		this.ir = ir;
 		this.getTimer = timer;
 		this.motor = motor;
 		devices.add(this.ir);
 		devices.add(this.getTimer);
-		devices.add(this.motor); //Devices this program uses
+		devices.add(this.motor); // Devices this program uses, disables them
+									// when you disable the program
 	}
 
+	/**
+	 * Checks timer values and distance values: changes movement directions
+	 * based on the timer and stops if something moves in front
+	 */
 	@Override
 	protected void action() {
-		distance = ir.getDistance(); 
+		distance = ir.getDistance();
 		timer = getTimer.getTimer();
-		String msg = "";
 
-		if (distance > 5 && distance <= 50) { //If something is in front
-			motor.halt(); //Stop moving
+		if (distance > 5 && distance <= 50) { // If something is in front
+			motor.halt(); // Stop moving
 			Doge.message(5, "Woof");
 			do {
 				distance = ir.getDistance();
-				Sound.playSample(bark, 100); //Keep barking until the way is clear
+				Sound.playSample(bark, 100); // Keep barking until the way is clear
+												
+				Doge.message(4, "distance:" + Float.toString(distance));
 				Delay.msDelay(10);
-				msg = "distance:"+Float.toString(distance);
 			} while (distance > 5 && distance <= 50);
 
 		} else
-			switch (timer) { //switch case uses timer to alternate moving
+			switch (timer) { // switch case uses timer to alternate moving
 			case 1:
-				motor.forward(); //forward
-				msg = "Forward";
+				motor.forward(); // forward
+				Doge.message(4, "Forward");
 				while (timer == 1 && distance > 50) {
 					timer = getTimer.getTimer();
 					distance = ir.getDistance();
@@ -61,8 +70,8 @@ public class GuardController extends ModeController {
 				break;
 
 			case 2:
-				motor.rollLeft(); //left
-				msg = "Left";
+				motor.rollLeft(); // left
+				Doge.message(4, "Left");
 				while (timer == 2 && distance > 50) {
 					timer = getTimer.getTimer();
 					distance = ir.getDistance();
@@ -71,8 +80,8 @@ public class GuardController extends ModeController {
 				break;
 
 			}
-		Doge.message(4, msg);
-		//TODO: Fine tune moving pattern, add different patterns that you can choose from
+		// TODO: Fine tune moving pattern, add different patterns that you can
+		// choose from
 	}
 
 	@Override
@@ -82,7 +91,8 @@ public class GuardController extends ModeController {
 	}
 
 	@Override
-	public void disable() {
+	public void disable() { // sets distance to 0 when disabling so the program
+							// doesnt get stuck
 		distance = 0;
 		super.disable();
 	}
