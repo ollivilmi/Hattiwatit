@@ -48,11 +48,11 @@ public class GuardController extends ModeController {
 
 		if (distance > 5 && distance <= 50) { // If something is in front
 			motor.halt(); // Stop moving
-			Doge.message(5, "Woof");
 			do {
 				distance = ir.getDistance();
-				Sound.playSample(bark, 100); // Keep barking until the way is clear
-												
+				Sound.playSample(bark, 100); // Keep barking until the way is
+												// clear
+
 				Doge.message(4, "distance:" + Float.toString(distance));
 				Delay.msDelay(10);
 			} while (distance > 5 && distance <= 50);
