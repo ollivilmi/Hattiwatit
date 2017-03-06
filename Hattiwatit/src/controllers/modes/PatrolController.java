@@ -12,6 +12,7 @@ public class PatrolController extends ModeController {
 	private IRController ir;
 	private float distance;
 	private int timer, direction;
+	private int lastTurn = 0;
 	private Timer getTimer;
 	private Random random;
 
@@ -45,49 +46,56 @@ public class PatrolController extends ModeController {
 		Doge.message(6, "Random: " + Integer.toString(direction));
 		
 		if (distance > 5 && distance <= 50) { //If something is in front
-			motor.rollLeft();
+			if (lastTurn == 0) {
+			motor.rollRight();
+			}
+			else if (lastTurn == 1) {
+				motor.rollLeft();
+			}
 			while (distance > 5 && distance <= 50) { //Turns around
 				Doge.message(4, "distance:" + Float.toString(distance));
 				Delay.msDelay(1000);
-				distance = ir.getDistance();
+				distance = ir.getDistance(); //TODO: Remember last turn
 			}
 		} else
 			switch (direction) { //Switch for random movement orders
 			case 1:
 				motor.gentleLeft(700);
+				lastTurn = 0;
 				Doge.message(4, "Gentle left");
-				while (timer == getTimer.getTimer() && distance > 50) {
-					distance = ir.getDistance();
-					Delay.msDelay(10);
-				}
+				Delay(distance, timer);
 				break;
 
 			case 2:
 				motor.gentleRight(700);
+				lastTurn = 1;
 				Doge.message(4, "Gentle right");
-				while (timer == getTimer.getTimer() && distance > 50) {
-					distance = ir.getDistance();
-					Delay.msDelay(10);
-				}
+				Delay(distance, timer);
+				break;
+				
 			case 3:
 				motor.sharpLeft(700);
+				lastTurn = 0;
 				Doge.message(4, "Sharp left");
-				while (timer == getTimer.getTimer() && distance > 50) {
-					distance = ir.getDistance();
-					Delay.msDelay(10);
-				}
+				Delay(distance, timer);
 				break;
 				
 			case 4:
 				motor.sharpRight(700);
+				lastTurn = 1;
 				Doge.message(4, "Sharp right");
-				while (timer == getTimer.getTimer() && distance > 50) {
-					distance = ir.getDistance();
-					Delay.msDelay(10);
-				}
+				Delay(distance, timer);
 				break;
 				
 			}
+	}
+		
+	public void Delay(float distance, int timer) {
+		while (timer == getTimer.getTimer() && distance > 50) {
+			distance = ir.getDistance();
+			Delay.msDelay(10);
+		}
+	
 		//TODO: add more random movement options
 	}
 
