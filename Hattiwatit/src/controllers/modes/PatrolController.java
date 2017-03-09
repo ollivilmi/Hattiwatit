@@ -3,6 +3,7 @@ package controllers.modes;
 import controllers.devices.ColorController;
 import controllers.devices.IRController;
 import controllers.devices.MotorController;
+import functions.Tail;
 import functions.Timer;
 import lejos.robotics.Color;
 import lejos.utility.Delay;
@@ -18,6 +19,7 @@ public class PatrolController extends ModeController {
 	private int lastTurn = 0;
 	private Timer getTimer;
 	private Random random;
+	private Tail tail;
 
 	/**
 	 * 
@@ -28,13 +30,14 @@ public class PatrolController extends ModeController {
 	 * @param Timer
 	 *            Uses timer to alternate moving patterns
 	 */
-	public PatrolController(IRController ir, MotorController motor, Timer timer, ColorController color) {
+	public PatrolController(IRController ir, MotorController motor, Timer timer, ColorController color, Tail tail) {
 		super("Patrol"); // Adds name to a list of mode names
 		this.motor = motor;
 		this.ir = ir;
 		this.color = color;
 		this.getTimer = timer;
 		this.random = new Random();
+		this.tail = tail;
 		devices.add(this.ir);
 		devices.add(this.motor);
 		devices.add(this.getTimer);
@@ -57,13 +60,18 @@ public class PatrolController extends ModeController {
 
 		if (colorID == Color.YELLOW) { // If sensor is on yellow, stop motor
 			motor.halt();
+			tail.setCount(4);
+			while (colorID == Color.YELLOW) {
+				colorID = color.getColorID();
+				Delay.msDelay(500);
+			}
 		} else if (distance > 5 && distance <= 50) { //If something is in front, change direction
 			if (lastTurn == 0) { 
 				motor.rollRight();
 			} else if (lastTurn == 1) {
 				motor.rollLeft();
 			}
-			while (distance > 5 && distance <= 50 || colorID == Color.YELLOW) { // Delay to to
+			while (distance > 5 && distance <= 50 && colorID != Color.YELLOW) { // Delay to to
 				Delay.msDelay(1000);										//give some time
 				distance = ir.getDistance();								//to turn
 				colorID = color.getColorID();

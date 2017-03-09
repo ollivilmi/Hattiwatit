@@ -7,13 +7,16 @@ import controllers.devices.ColorController;
 import controllers.devices.DeviceController;
 import controllers.devices.IRController;
 import controllers.devices.MotorController;
+import controllers.devices.TouchController;
 import controllers.modes.FollowController;
 import controllers.modes.GuardController;
 import controllers.modes.ModeController;
 import controllers.modes.PatrolController;
+import functions.Tail;
 import functions.Timer;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
+import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
 import lejos.utility.Delay;
 
@@ -21,11 +24,12 @@ public class Doge {
 	private MotorController motor;
 	private IRController ir;
 	private ColorController color;
+	private TouchController touch;
 
 	private FollowController follower;
 	private PatrolController patrol;
 	private GuardController guard;
-	
+	private Tail tail;
 	private Timer timer;
 
 	private Menu menu;
@@ -36,26 +40,32 @@ public class Doge {
 	private int selected,
 				quit;
 
-	public Doge(Port irPort, Port colorPort, Port motorR, Port motorL) {
+	public Doge(Port irPort, Port colorPort, Port motorR, Port motorL, Port touchPort, Port motorT) {
 		message(0, "Starting");
 		message(1, "devices...");
 		motor = new MotorController(motorR, motorL, 360);
 		ir = new IRController(irPort);
 		color = new ColorController(colorPort);
 		timer = new Timer();
+		touch = new TouchController(touchPort);
+		tail = new Tail(motorT, touch);
 
 		deviceList = new ArrayList<DeviceController>();
 		deviceList.add(motor);
 		deviceList.add(ir);
 		deviceList.add(color);
 		deviceList.add(timer);
+		deviceList.add(touch);
+		deviceList.add(tail);
 
 		message(1, "modes...");
 		follower = new FollowController(ir, motor);
-		patrol = new PatrolController(ir, motor, timer, color);
+		patrol = new PatrolController(ir, motor, timer, color, tail);
 		guard = new GuardController(ir, motor, timer);
 		
-
+		message(1, "tail...");
+		tail.enable();
+			
 		message(1, "menu...");
 		modeList = new ArrayList<ModeController>();
 		modeList.add(follower);
