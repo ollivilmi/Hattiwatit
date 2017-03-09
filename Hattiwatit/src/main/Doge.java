@@ -16,7 +16,6 @@ import functions.Tail;
 import functions.Timer;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
-import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
 import lejos.utility.Delay;
 
@@ -55,8 +54,8 @@ public class Doge {
 		deviceList.add(ir);
 		deviceList.add(color);
 		deviceList.add(timer);
-		deviceList.add(touch);
 		deviceList.add(tail);
+		deviceList.add(touch);
 
 		message(1, "modes...");
 		follower = new FollowController(ir, motor);

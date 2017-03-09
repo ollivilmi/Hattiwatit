@@ -19,7 +19,7 @@ public class Tail extends DeviceController {
 	@Override
 	public void action() {
 		motor.setSpeed(600);
-		while (count == 0) {
+		while (count == 0 && alive == true) {
 			if (touch.getPress() == 1) {
 				count = 4;
 			}
