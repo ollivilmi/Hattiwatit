@@ -60,7 +60,7 @@ public class PatrolController extends ModeController {
 
 		if (colorID == Color.YELLOW) { // If sensor is on yellow, stop motor
 			motor.halt();
-			tail.setCount(4);
+			tail.wagTail(4,700);
 			while (colorID == Color.YELLOW) {
 				colorID = color.getColorID();
 				Delay.msDelay(500);
