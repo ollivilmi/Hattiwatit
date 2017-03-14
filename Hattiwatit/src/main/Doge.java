@@ -57,7 +57,6 @@ public class Doge {
 	 * Quit-option.
 	 */
 	private String[] menuItems;
-
 	/**
 	 * Variable for the selected menu item.
 	 */
@@ -107,7 +106,7 @@ public class Doge {
 
 		message(1, "tail...");
 		tail.enable();
-
+			
 		message(1, "menu...");
 		modeList = new ArrayList<ModeController>();
 		modeList.add(follower);
