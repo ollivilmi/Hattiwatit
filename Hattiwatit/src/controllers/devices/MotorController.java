@@ -152,11 +152,6 @@ public class MotorController extends DeviceController {
 
 	/**
 	 * The generic moving method for the motors.
-	 * 
-	 * @param speedR
-	 * @param speedL
-	 * @param dirR
-	 * @param dirL
 	 */
 	public void move(int speedR, int speedL, Direction dirR, Direction dirL) {
 		setSpeed(speedR, speedL);

@@ -1,5 +1,7 @@
 package controllers.modes;
 
+import java.util.Random;
+
 import controllers.devices.ColorController;
 import controllers.devices.IRController;
 import controllers.devices.MotorController;
@@ -8,7 +10,6 @@ import functions.Timer;
 import lejos.robotics.Color;
 import lejos.utility.Delay;
 import main.Doge;
-import java.util.Random;
 
 public class RoamController extends ModeController {
 	private MotorController motor;
@@ -24,11 +25,15 @@ public class RoamController extends ModeController {
 	/**
 	 * 
 	 * @param ir
-	 *            sensor Uses IR to measure distance
+	 *            Uses IR to measure distance
 	 * @param motor
 	 *            Uses motor to move
-	 * @param Timer
+	 * @param timer
 	 *            Uses timer to alternate moving patterns
+	 * @param color
+	 *            Uses color sensor to locate yellow areas
+	 * @param tail
+	 *            Uses tail when finds a yellow area
 	 */
 	public RoamController(IRController ir, MotorController motor, Timer timer, ColorController color, Tail tail) {
 		super("Roam"); // Adds name to a list of mode names

@@ -81,21 +81,6 @@ public class ControllerManager {
 	 */
 	private HashMap<String, ModeController> modeList;
 
-	/**
-	 * 
-	 * @param irPort
-	 *            Port where the IR receiver is connected.
-	 * @param colorPort
-	 *            Port where the color sensor is connected.
-	 * @param motorR
-	 *            Port where the right motor is connected.
-	 * @param motorL
-	 *            Port where the right motor is connected.
-	 * @param touchPort
-	 *            Port where the touch sensor is connected.
-	 * @param motorT
-	 *            Port where the tail motor is connected.
-	 */
 	public ControllerManager() {
 		Doge.message(0, "Starting");
 		Doge.message(1, "devices...");

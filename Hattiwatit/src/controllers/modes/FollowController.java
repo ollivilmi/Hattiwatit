@@ -52,9 +52,9 @@ public class FollowController extends ModeController {
 
 	/**
 	 * @param ir
-	 *            IR controller to use
+	 *            IR controller to locate the remote control
 	 * @param motor
-	 *            Motor controller to use
+	 *            Motor controller to use for moving
 	 */
 	public FollowController(IRController ir, MotorController motor) {
 		// TODO: name as a variable
