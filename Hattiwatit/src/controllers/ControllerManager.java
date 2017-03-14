@@ -16,7 +16,9 @@ import controllers.modes.PatrolController;
 import functions.Tail;
 import functions.Timer;
 import lejos.hardware.lcd.LCD;
+import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
+import lejos.hardware.port.SensorPort;
 import main.Doge;
 
 /**
@@ -24,6 +26,36 @@ import main.Doge;
  * {@link #startMode(String)} to start a mode.
  */
 public class ControllerManager {
+	/**
+	 * Port where the IR receiver is connected.
+	 */
+	private static Port irPort = SensorPort.S3;
+
+	/**
+	 * Port where the color sensor is connected.
+	 */
+	private static Port colorPort = SensorPort.S2;
+
+	/**
+	 * Port where the right motor is connected.
+	 */
+	private static Port motorR = MotorPort.D;
+
+	/**
+	 * Port where the left motor is connected.
+	 */
+	private static Port motorL = MotorPort.A;
+
+	/**
+	 * Port where the touch sensor is connected.
+	 */
+	private static Port touchPort = SensorPort.S1;
+
+	/**
+	 * Port where the tail motor is connected.
+	 */
+	private static Port motorT = MotorPort.B;
+
 	// modes
 	private MotorController motor;
 	private IRController ir;
@@ -64,7 +96,7 @@ public class ControllerManager {
 	 * @param motorT
 	 *            Port where the tail motor is connected.
 	 */
-	public ControllerManager(Port irPort, Port colorPort, Port motorR, Port motorL, Port touchPort, Port motorT) {
+	public ControllerManager() {
 		Doge.message(0, "Starting");
 		Doge.message(1, "devices...");
 		motor = new MotorController(motorR, motorL, 360);

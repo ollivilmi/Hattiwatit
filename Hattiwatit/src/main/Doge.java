@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import controllers.ControllerManager;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
-import lejos.hardware.port.Port;
 import lejos.utility.Delay;
 
 /**
@@ -35,23 +34,8 @@ public class Doge {
 	 */
 	private int quit;
 
-	/**
-	 * 
-	 * @param irPort
-	 *            Port where the IR receiver is connected.
-	 * @param colorPort
-	 *            Port where the color sensor is connected.
-	 * @param motorR
-	 *            Port where the right motor is connected.
-	 * @param motorL
-	 *            Port where the left motor is connected.
-	 * @param touchPort
-	 *            Port where the touch sensor is connected.
-	 * @param motorT
-	 *            Port where the tail motor is connected.
-	 */
-	public Doge(Port irPort, Port colorPort, Port motorR, Port motorL, Port touchPort, Port motorT) {
-		cm = new ControllerManager(irPort, colorPort, motorR, motorL, touchPort, motorT);
+	public Doge() {
+		cm = new ControllerManager();
 		cm.start();
 
 		modeNames = new ArrayList<>(cm.getModeList());
