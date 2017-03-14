@@ -24,7 +24,7 @@ public class PatrolController extends ModeController {
 	/**
 	 * 
 	 * @param ir
-	 *            sensor Uses distance sensor to see what is in front
+	 *            sensor Uses IR to measure distance
 	 * @param motor
 	 *            Uses motor to move
 	 * @param Timer
@@ -47,8 +47,9 @@ public class PatrolController extends ModeController {
 	}
 
 	/**
-	 * Sharp turn left when something is in front Steer right or left when the
-	 * way is clear
+	 * If on yellow, stop and wag tail. If not, and something is in front, turn in the opposite
+	 * direction of the last turn. Alternate between random movement orders (that are all left
+	 * or right) every 2 seconds. (Timer can be changed in Timer.java)
 	 */
 	@Override
 	protected void action() {
@@ -109,29 +110,30 @@ public class PatrolController extends ModeController {
 			}
 	}
 /**
- * Uses this delay to keep moving in the direction unless something comes in front or
- * the sensor finds yellow
+ * Uses this delay to alternate moving patterns and check sensors.
  * @param distance current distance 
  * @param timer current timer
  * @param colorID current color
  */
-	public void Delay(float distance, int timer, int colorID) {
+	public void Delay(float distance, int timer, int colorID) { 
 		while (timer == getTimer.getTimer() && distance > 50 && colorID != Color.YELLOW) {
 			distance = ir.getDistance();
 			colorID = color.getColorID();
-			Delay.msDelay(10);
-		}
+			Delay.msDelay(10); //Reduces copy pasta, while moving keeps checking sensors
+		}					   //and timers
 	}
 
 	/**
-	 * Gets distance values when using this mode
+	 * Resumes this mode
 	 */
 	@Override
 	public void enable() {
 		ir.setMode("Distance");
 		super.enable();
 	}
-
+	/** 
+	 * Pauses this mode
+	 */
 	@Override
 	public void disable() {
 		distance = 0;

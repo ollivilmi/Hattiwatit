@@ -3,18 +3,19 @@ import controllers.devices.DeviceController;
 import lejos.utility.Delay;
 
 public class Timer extends DeviceController {
-	private int timer;
-	/**
-	 * This thread alternates int values 1-2 with 
-	 * a delay of 1 second to keep the program responsive
-	 */
+	private int timer, interval;
 	public Timer ()  {
 		this.timer = 1;
+		this.interval = 2000;
 	}
+	/**
+	 * Alternates int values 1 and 2 by using an interval
+	 * (Default 2 seconds)
+	 */
 	@Override
 	protected void action() {
 		while (timer <3) {
-		Delay.msDelay(2000);
+		Delay.msDelay(interval);
 		timer++;
 		}
 		if (timer >= 3) {
@@ -30,5 +31,12 @@ public class Timer extends DeviceController {
 	}
 	@Override
 	public void cleanUp() {
+	}
+	/**
+	 * Change the interval of the timer
+	 * @param interval milliseconds
+	 */
+	public void changeTimer(int interval) {
+		this.interval = interval;
 	}
 }

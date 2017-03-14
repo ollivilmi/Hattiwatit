@@ -20,7 +20,7 @@ public class GuardController extends ModeController {
 	/**
 	 * 
 	 * @param ir
-	 *            Uses IR sensor to see what is in front
+	 *            Uses IR sensor to measure distance
 	 * @param motor
 	 *            Uses motor to move
 	 * @param timer
@@ -39,7 +39,7 @@ public class GuardController extends ModeController {
 
 	/**
 	 * Checks timer values and distance values: changes movement directions
-	 * based on the timer and stops if something moves in front
+	 * to forward or left every interval and stops to bark if something is in front
 	 */
 	@Override
 	protected void action() {
@@ -83,13 +83,17 @@ public class GuardController extends ModeController {
 		// TODO: Fine tune moving pattern, add different patterns that you can
 		// choose from
 	}
-
+	/**
+	 * Resumes this mode
+	 */
 	@Override
 	public void enable() {
 		ir.setMode("Distance");
 		super.enable();
 	}
-
+	/**
+	 * Pauses this mode
+	 */
 	@Override
 	public void disable() { // sets distance to 0 when disabling so the program
 							// doesnt get stuck
