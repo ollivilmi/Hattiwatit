@@ -9,21 +9,51 @@ import lejos.hardware.port.Port;
 import lejos.utility.Delay;
 
 /**
- * Class for starting the devices and modes, and running the mode which the user
- * chooses.
+ * Shows the menu to the user and runs the mode of their choosing.
  */
 public class Doge {
 	private ControllerManager cm;
 	private Menu menu;
-	private ArrayList<String> modeNames;
-	private String[] menuItems;
-	private int selected,
-				quit;
 
+	/**
+	 * Names of the modes which are show in the menu.
+	 */
+	private ArrayList<String> modeNames;
+
+	/**
+	 * List of items shown in the menu.
+	 */
+	private String[] menuItems;
+
+	/**
+	 * Index of the selected menu item.
+	 */
+	private int selected;
+
+	/**
+	 * Index of the Quit-option in the menu.
+	 */
+	private int quit;
+
+	/**
+	 * 
+	 * @param irPort
+	 *            Port where the IR receiver is connected.
+	 * @param colorPort
+	 *            Port where the color sensor is connected.
+	 * @param motorR
+	 *            Port where the right motor is connected.
+	 * @param motorL
+	 *            Port where the left motor is connected.
+	 * @param touchPort
+	 *            Port where the touch sensor is connected.
+	 * @param motorT
+	 *            Port where the tail motor is connected.
+	 */
 	public Doge(Port irPort, Port colorPort, Port motorR, Port motorL, Port touchPort, Port motorT) {
 		cm = new ControllerManager(irPort, colorPort, motorR, motorL, touchPort, motorT);
 		cm.start();
-		
+
 		modeNames = new ArrayList<>(cm.getModeList());
 
 		// menu includes all modes + Quit
@@ -71,12 +101,18 @@ public class Doge {
 	}
 
 	/**
-	 * Starts the devices' and modes' threads, and shows the menu.
+	 * Starts looping the menu.
 	 */
 	public void start() {
 		loopMenu();
 	}
 
+	/**
+	 * Start a mode.
+	 * 
+	 * @param mode
+	 *            Mode to run.
+	 */
 	private void runMode(String mode) {
 		cm.startMode(mode);
 
