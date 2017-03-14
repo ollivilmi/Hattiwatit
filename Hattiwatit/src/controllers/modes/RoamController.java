@@ -10,7 +10,7 @@ import lejos.utility.Delay;
 import main.Doge;
 import java.util.Random;
 
-public class PatrolController extends ModeController {
+public class RoamController extends ModeController {
 	private MotorController motor;
 	private IRController ir;
 	private ColorController color;
@@ -30,8 +30,8 @@ public class PatrolController extends ModeController {
 	 * @param Timer
 	 *            Uses timer to alternate moving patterns
 	 */
-	public PatrolController(IRController ir, MotorController motor, Timer timer, ColorController color, Tail tail) {
-		super("Patrol"); // Adds name to a list of mode names
+	public RoamController(IRController ir, MotorController motor, Timer timer, ColorController color, Tail tail) {
+		super("Roam"); // Adds name to a list of mode names
 		this.motor = motor;
 		this.ir = ir;
 		this.color = color;

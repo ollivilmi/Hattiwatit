@@ -12,7 +12,7 @@ import controllers.devices.TouchController;
 import controllers.modes.FollowController;
 import controllers.modes.GuardController;
 import controllers.modes.ModeController;
-import controllers.modes.PatrolController;
+import controllers.modes.RoamController;
 import functions.Tail;
 import functions.Timer;
 import lejos.hardware.lcd.LCD;
@@ -68,7 +68,7 @@ public class ControllerManager {
 
 	// devices
 	private FollowController follower;
-	private PatrolController patrol;
+	private RoamController roam;
 	private GuardController guard;
 
 	/**
@@ -109,7 +109,7 @@ public class ControllerManager {
 
 		Doge.message(1, "modes");
 		follower = new FollowController(ir, motor);
-		patrol = new PatrolController(ir, motor, timer, color, tail);
+		roam = new RoamController(ir, motor, timer, color, tail);
 		guard = new GuardController(ir, motor, timer);
 
 		// tail runs constantly in the background
@@ -123,7 +123,7 @@ public class ControllerManager {
 
 		// populate the mode list
 		modeList = new HashMap<String, ModeController>();
-		for (ModeController mode : new ModeController[] { follower, patrol, guard }) {
+		for (ModeController mode : new ModeController[] { follower, roam, guard }) {
 			modeList.put(mode.getModeName(), mode);
 		}
 
