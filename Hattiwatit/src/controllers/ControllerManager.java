@@ -133,7 +133,7 @@ public class ControllerManager {
 	/**
 	 * Get a list of available modes.
 	 * 
-	 * @return List of available mode.
+	 * @return List of available modes.
 	 */
 	public Set<String> getModeList() {
 		return modeList.keySet();
@@ -176,7 +176,7 @@ public class ControllerManager {
 	}
 
 	/**
-	 * Stop a mode.
+	 * Stops a mode.
 	 * 
 	 * @param name
 	 *            Name of the mode.
