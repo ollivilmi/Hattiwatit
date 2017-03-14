@@ -33,7 +33,22 @@ public class FollowController extends ModeController {
 	/**
 	 * Maximum (absolute) bearing value which results in a forward motion.
 	 */
-	private int forwardThreshold = 4;
+	private int forwardThreshold = 8;
+
+	/**
+	 * Minimum forward speed.
+	 */
+	private int speedMin = 450;
+
+	/**
+	 * Maximum forward speed.
+	 */
+	private int speedMax;
+
+	/**
+	 * Current forward speed.
+	 */
+	private int speed = speedMin;
 
 	/**
 	 * @param ir
@@ -48,6 +63,7 @@ public class FollowController extends ModeController {
 		this.ir = ir;
 		devices.add(ir);
 		devices.add(motor);
+		speedMax = motor.getMaxSpeed();
 	}
 
 	/**
@@ -60,6 +76,11 @@ public class FollowController extends ModeController {
 		bearing = ir.getSeekBearing();
 		String msg = "";
 
+		// how far away is the remote
+		float distanceRatio = distance / distanceMax;
+		speedMax = motor.getMaxSpeed();
+		speed = (int) (distanceRatio * (speedMax - speedMin)) + speedMin;
+
 		if (distance <= distanceMin || (distance >= distanceMax && bearing == 0)) {
 			// remote is too close or is not found
 			msg = "halt";
@@ -71,7 +92,7 @@ public class FollowController extends ModeController {
 		} else if (bearing <= forwardThreshold && bearing >= (-forwardThreshold)) {
 			// remote is straight ahead
 			msg = "forward";
-			motor.forward();
+			motor.forward(speed);
 		} else if (bearing > forwardThreshold) {
 			// remote is to the right
 			msg = "right";
@@ -80,6 +101,7 @@ public class FollowController extends ModeController {
 
 		// print the direction
 		Doge.message(4, msg);
+		Doge.message(5, String.format("speed: %d", speed));
 	}
 
 	/**

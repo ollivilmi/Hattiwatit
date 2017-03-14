@@ -137,6 +137,10 @@ public class MotorController extends DeviceController {
 		move((int) (.7 * speed), speed, Direction.forward, Direction.forward);
 	}
 
+	public int getMaxSpeed() {
+		return (int) motorR.getMaxSpeed();
+	}
+	
 	/**
 	 * Stops the motors.
 	 */
